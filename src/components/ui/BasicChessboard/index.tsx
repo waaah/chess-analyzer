@@ -1,5 +1,5 @@
 import { Chessboard } from "react-chessboard";
 
 export const BasicChessboard = () => {
-    return <Chessboard />;
+    return <div><Chessboard boardWidth={480} /></div>;
 };

@@ -1,21 +1,30 @@
 'use client'
-import { Button, Grid, GridItem, Input } from "@chakra-ui/react"
-import { UploadPgnButton } from "@/components/ui/UploadPgnButton"
 import { BasicChessboard } from "@/components/ui/BasicChessboard"
+import { EvalBar } from "@/components/ui/EvaluationBar"
 import { MoveCard } from "@/components/ui/MoveCard"
-import { UserEntryCard } from "@/components/ui/UserEntryCard"
+import { PlayTimer } from "@/components/ui/PlayTimer"
+import { PlayerColor } from "@/types/chess"
+import { Box, Flex, Grid } from "@radix-ui/themes"
 
 const AnalyzePage = () => {
-    return <Grid padding={8} style={{ height: "100vh", maxHeight: "100vh" }} templateColumns="repeat(4, 1fr)" gap="6">
+    return <Grid columns={{ initial: "1", md: "600px 1fr" }} gap="3" width="auto">
+        <Box className="p-3">
+            <Flex direction={"row"}>
+                <EvalBar blackEval={0.5} whiteEval={0.5} />
+                <div>
+                    <PlayTimer className="mb-2 mt-2" color={PlayerColor.WHITE} />
+                    <BasicChessboard />
+                    <PlayTimer color={PlayerColor.BLACK} className="ml-auto mt-2" />
+                </div>
 
-        <GridItem colSpan={2}>
-            <BasicChessboard />
-        </GridItem>
+            </Flex>
 
-        <GridItem colSpan={2}>
+        </Box>
+        <Box className="mt-10 p-3">
             <MoveCard />
-        </GridItem>
+        </Box>
     </Grid>
+
 }
 
 export default AnalyzePage
