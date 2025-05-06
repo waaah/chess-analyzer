@@ -3,6 +3,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --color-icon-bullet: var(--color-gold-300);
+  --color-icon-blitz: var(--color-gold-100);
+  --color-icon-rapid: var(--color-green-300);
 }
 
 @theme inline {
@@ -16,6 +19,9 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --color-icon-bullet: var(--color-gold-300);
+    --color-icon-blitz: var(--color-gold-100);
+    --color-icon-rapid: var(--color-green-300);
   }
 }
 
@@ -23,5 +29,17 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.icon-blitz{
+  color: var(--color-icon-blitz);
+}
+
+.icon-rapid{
+  color: var(--color-icon-rapid);
+}
+
+.icon-bullet{
+  color: var(--color-icon-bullet);
 }
 
