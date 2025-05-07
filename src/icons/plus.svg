@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" class="circle-icon">
+  <!-- Slightly Circular Box background with transparent stroke and dynamic fill (currentColor) -->
+  <rect x="4" y="4" width="16" height="16" rx="4" ry="4" stroke="transparent" stroke-width="2" fill="currentColor"/>
+
+  <!-- Plus Icon (Two lines) with white stroke -->
+  <line x1="5" y1="12" x2="19" y2="12" stroke="white" stroke-width="2"/> <!-- Horizontal Line -->
+  <line x1="12" y1="5" x2="12" y2="19" stroke="white" stroke-width="2"/> <!-- Vertical Line -->
+</svg>

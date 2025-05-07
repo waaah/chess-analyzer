@@ -1,6 +1,5 @@
 import { Box, Button, Card, Flex } from "@radix-ui/themes";
 import { Play, ChevronRight, ChevronsLeft, ChevronsRight, ChevronLeft, } from "lucide-react";
-import BlitzIcon from '../../../icons/BlitzIcon.svg';
 import { MovesTable } from "../MovesTable";
 
 export const MoveCard = () => {

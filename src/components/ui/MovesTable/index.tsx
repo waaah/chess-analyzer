@@ -19,7 +19,6 @@ export const MovesTable = () => {
                     </Table.Row>
                 })
             }
-
         </Table.Body>
     </Table.Root>
 }

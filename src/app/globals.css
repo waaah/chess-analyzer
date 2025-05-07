@@ -3,9 +3,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --color-icon-bullet: var(--color-gold-300);
-  --color-icon-blitz: var(--color-gold-100);
-  --color-icon-rapid: var(--color-green-300);
+  --color-icon-bullet: #e3aa24;
+  --color-icon-blitz: #fad541;
+  --color-icon-rapid: #81b64c;
 }
 
 @theme inline {
@@ -19,9 +19,9 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-    --color-icon-bullet: var(--color-gold-300);
-    --color-icon-blitz: var(--color-gold-100);
-    --color-icon-rapid: var(--color-green-300);
+    --color-icon-bullet: #e3aa24;
+    --color-icon-blitz: #fad541;
+    --color-icon-rapid: #81b64c;
   }
 }
 
