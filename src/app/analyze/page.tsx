@@ -17,7 +17,7 @@ const AnalyzePage = () => {
                         <PlayTimer className="ml-auto" color={PlayerColor.WHITE} />
                     </Flex>
                     <Flex gap="2">
-                        <EvalBar blackEval={0.5} whiteEval={0.5} />
+                        <EvalBar />
                         <BasicChessboard />
                     </Flex>
                     <Flex direction={"row"} className="mt-2 align-center items-center gap-2">

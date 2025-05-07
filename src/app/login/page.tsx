@@ -1,11 +1,9 @@
 'use client'
 import { Button, Heading, Select, Text, TextField } from "@radix-ui/themes";
 import { User } from "lucide-react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 const LoginPage = () => {
-    const userNameRef = useRef<HTMLInputElement>(null);
-    const sourceRef = useRef<HTMLInputElement>(null);
     const inputSize = "3"
     const [stage, setStage] = useState(0)
     return <div className="h-screen flex gap-2 items-center justify-center">
@@ -13,8 +11,6 @@ const LoginPage = () => {
             <Heading mb="5" size="9">♟️Checkly</Heading>
             <Text mb="2" className="text-center mt-3 mb-3" size={inputSize}> Unlock smarter, faster chess insights.
                 Analyze your games, spot your blunders, and level up — one move at a time.</Text>
-            {/* <Heading mb="2" className="text-center" size="5xl">♟️ Checkly</Heading>
-            <Text mb="10" className="text-center" fontSize="sm" color="fg.muted"</Text> */}
 
             {
                 stage == 0 && <>
@@ -24,11 +20,7 @@ const LoginPage = () => {
                         </TextField.Slot>
                     </TextField.Root>
                     <Button size={inputSize} onClick={() => setStage(1)}>Proceed</Button>
-                    {/* <Field.Root>
-                        <Field.Label>From where do you play?</Field.Label>
-                        <Input ref={sourceRef} mb={inputSize} className="shadow-md" placeholder="User Name" size="lg" />
-                        <Button >Proceed</Button>
-                    </Field.Root> */}
+
                 </>
             }
             {

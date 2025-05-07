@@ -1,6 +1,4 @@
 import { Flex, Box, Text } from "@radix-ui/themes"
-import { Minus, Plus } from "lucide-react"
-
 export const GameItem = () => {
     const winIcon = <span className="text-green-400">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
@@ -10,12 +8,6 @@ export const GameItem = () => {
         </svg>
     </span>
     const loseIcon = <span className="text-red-400">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-            <rect x="4" y="4" width="16" height="16" rx="4" ry="4" stroke="currentColor" fill="currentColor" />
-            <line x1="5" y1="12" x2="19" y2="12" stroke="white" />
-        </svg>
-    </span>
-    const tieIcon = <span className="text-gray-400">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
             <rect x="4" y="4" width="16" height="16" rx="4" ry="4" stroke="currentColor" fill="currentColor" />
             <line x1="5" y1="12" x2="19" y2="12" stroke="white" />
