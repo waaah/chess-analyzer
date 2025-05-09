@@ -8,3 +8,8 @@ export enum GameModes {
     RAPID = "rapid",
     BULLET = "bullet",
 }
+
+export enum ChessGameSource {
+    CHESS_COM = "chess.com",
+    LICHESS = "lichess",
+}
