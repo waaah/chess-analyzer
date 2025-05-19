@@ -1,3 +1,5 @@
+import { ChessGameSource } from "./chess";
+
 export type ChessUser = {
     username: string;
     title?: string;
@@ -9,4 +11,5 @@ export type ChessUser = {
         bullet: number;
         blitz: number
     }
+    source: ChessGameSource
 }

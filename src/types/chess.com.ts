@@ -23,3 +23,8 @@ export type ChessComRating = {
         }
     }
 }
+
+export type ChessComError = {
+    error: string;
+    code: string;
+}
