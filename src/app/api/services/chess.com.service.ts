@@ -1,14 +1,38 @@
-import { ChessComRating, ChessComUser } from "@/types/chess.com";
+import { ChessComGame } from "@/types/chess.com";
 import { IBaseChessService } from "./IBaseChessService";
-import { ChessUser } from "@/types/chess-user";
-import { HttpClient } from "../utils/httpClient";
-import { ApiError, ErrorType } from "../utils/api.error";
+import { ChessGame, ChessResultType, ChessUser } from "@/types/chess-user";
 import { ChessGameSource } from "@/types/chess";
+import { ChessComRepository } from "../repository/chess.com.repository";
 
 export class ChessComService implements IBaseChessService {
+    private chessComRepository
+    constructor() {
+        this.chessComRepository = new ChessComRepository();
+    }
+    async getGameList(username: string): Promise<ChessGame[]> {
+        const { games } = await this.chessComRepository.getGamesList(username);
+        return games.map((game: ChessComGame) => ({
+            time_class: game.time_class,
+            time_control: game.time_control,
+            white: {
+                username: game.white.username,
+                rating: game.white.rating,
+                uuid: game.white.uuid,
+                accuracy: game.accuracies.white,
+                result: game.white.result as unknown as ChessResultType
+            },
+            black: {
+                username: game.black.username,
+                rating: game.black.rating,
+                uuid: game.black.uuid,
+                accuracy: game.accuracies.black,
+                result: game.black.result as unknown as ChessResultType
+            }
+        }))
+    }
     async getUser(username: string): Promise<ChessUser> {
-        const userData = await this.getUserData(username);
-        const rating = await this.getRating(username);
+        const userData = await this.chessComRepository.getUserData(username);
+        const rating = await this.chessComRepository.getRating(username);
         return {
             username: userData.username,
             title: userData.title,
@@ -25,22 +49,5 @@ export class ChessComService implements IBaseChessService {
 
     }
 
-    private async getUserData(username: string): Promise<ChessComUser> {
-        try {
-            const response = await HttpClient.get<ChessComUser>(`https://api.chess.com/pub/player/${username}`)
-            return response
-        } catch (error: unknown) {
-            if (error instanceof ApiError) {
-                if (error.code === ErrorType.NOT_FOUND) {
-                    throw new ApiError(ErrorType.NOT_FOUND, "User not found.");
-                }
-            }
-            throw error;
-        }
 
-    }
-    private async getRating(username: string): Promise<ChessComRating> {
-        const response = await HttpClient.get<ChessComRating>(`https://api.chess.com/pub/player/${username}/stats`)
-        return response
-    }
 }
