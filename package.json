@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build-stockfish": "cd scripts && docker-compose run --rm builder"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
