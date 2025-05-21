@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
     const verifiedToken = await verifyToken(userToken || "");
     // redirect to index if token is invalid
     if (!verifiedToken) {
-      return NextResponse.redirect("/");
+      return NextResponse.redirect(new URL("/", request.nextUrl));
     }
   }
 
