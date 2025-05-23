@@ -1,5 +1,5 @@
-import { Box, Button, Card, Flex } from "@radix-ui/themes";
-import { Play, ChevronRight, ChevronsLeft, ChevronsRight, ChevronLeft, } from "lucide-react";
+'use client'
+import { Box, Card, Flex } from "@radix-ui/themes";
 
 export const MoveCard: React.FC<{ children: React.ReactNode }> = (props) => {
     const { children } = props;
@@ -19,16 +19,6 @@ export const MoveCard: React.FC<{ children: React.ReactNode }> = (props) => {
             </Box> */}
             <Box className="w-full p-5">
                 {children}
-            </Box>
-            <Box className="w-full p-4 bg-white">
-                <Flex gap={'3'} align={'center'} justify={'center'}>
-                    <Button><ChevronsLeft /></Button>
-                    <Button><ChevronLeft /></Button>
-                    <Button><Play /></Button>
-                    <Button><ChevronRight /></Button>
-                    <Button><ChevronsRight /></Button>
-                </Flex>
-
             </Box>
         </Flex>
     </Card >;

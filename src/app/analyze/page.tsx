@@ -1,7 +1,8 @@
-"use client";
+'use client';
 import { AnalysisChessboard } from "@/components/ui/AnalysisChessboard";
 import { EvalBar } from "@/components/ui/EvaluationBar";
 import { GameUser } from "@/components/ui/GameUser";
+import { MoveButtons } from "@/components/ui/MoveButtons";
 import { MoveCard } from "@/components/ui/MoveCard";
 import { PgnUploader } from "@/components/ui/PgnUploader";
 import { PlayTimer } from "@/components/ui/PlayTimer";
@@ -10,7 +11,7 @@ import { PlayerColor } from "@/types/chess";
 import { Box, Flex, Grid } from "@radix-ui/themes";
 
 const AnalyzePage = () => {
-  const { loadPosition, gameInstance } = useChess();
+  const { loadPosition, gameInstance, moves: { moveBack, moveNext, moveToEnd, moveToStart } } = useChess();
   return (
     <Grid
       className="m-auto w-fit"
@@ -44,6 +45,12 @@ const AnalyzePage = () => {
       <Box className="mt-10">
         <MoveCard>
           <PgnUploader loadPosition={loadPosition} />
+          <MoveButtons
+            moveBack={moveBack}
+            moveForward={moveNext}
+            moveToEnd={moveToEnd}
+            moveToStart={moveToStart}
+          />
         </MoveCard>
       </Box>
     </Grid>

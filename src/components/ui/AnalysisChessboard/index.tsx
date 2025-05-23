@@ -1,4 +1,5 @@
-import { Chess, Square } from "chess.js";
+"use client";
+import { Chess, Move, Square } from "chess.js";
 import React, { useEffect, useRef } from "react";
 import { Chessboard } from "react-chessboard";
 
@@ -33,14 +34,23 @@ export const AnalysisChessboard: React.FC<{ game: Chess }> = (props) => {
 
     useEffect(() => {
         if (game) {
-            console.log(game.history())
-            setFen(game.fen());
+            const history = game.history({ verbose: true });
+            if (history.length > 0) {
+                setGameState(history[history.length - 1]);
+            }
+            else {
+                setFen(game.fen());
+            }
         }
     }, [game])
 
     const onDrop = (sourceSquare: Square, targetSquare: Square) => {
+        const move = game.move({ from: sourceSquare, to: targetSquare });
+        return setGameState(move);
+    }
+
+    const setGameState = (move: Move) => {
         try {
-            const move = game.move({ from: sourceSquare, to: targetSquare });
             if (game.isCheckmate() || game.isDraw())
                 gameOverSound.current?.play();
             else if (move.isKingsideCastle() || move.isQueensideCastle())
@@ -61,7 +71,6 @@ export const AnalysisChessboard: React.FC<{ game: Chess }> = (props) => {
             illegalMoveSound.current?.play();
             return false;
         }
-
     }
     return <>
         <Chessboard

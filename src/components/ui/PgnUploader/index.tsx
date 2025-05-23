@@ -1,3 +1,4 @@
+"use client";
 import { Box, Button, Text, TextArea } from "@radix-ui/themes"
 import { Chess } from "chess.js";
 import { UploadIcon } from "lucide-react"
