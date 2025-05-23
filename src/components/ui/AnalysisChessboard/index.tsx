@@ -2,10 +2,9 @@ import { Chess, Square } from "chess.js";
 import React, { useEffect, useRef } from "react";
 import { Chessboard } from "react-chessboard";
 
-export const BasicChessboard: React.FC<{ pgn?: string }> = (props) => {
+export const AnalysisChessboard: React.FC<{ game: Chess }> = (props) => {
     const [fen, setFen] = React.useState<string>("");
-    const game = useRef(new Chess());
-    const { pgn } = props;
+    const { game } = props;
     const moveSound = useRef<HTMLAudioElement>(null);
     const moveCheckSound = useRef<HTMLAudioElement>(null);
     const gameOverSound = useRef<HTMLAudioElement>(null);
@@ -33,13 +32,16 @@ export const BasicChessboard: React.FC<{ pgn?: string }> = (props) => {
     }, []);
 
     useEffect(() => {
-        setFen(game.current.fen());
-    }, [pgn])
+        if (game) {
+            console.log(game.history())
+            setFen(game.fen());
+        }
+    }, [game])
 
     const onDrop = (sourceSquare: Square, targetSquare: Square) => {
         try {
-            const move = game.current.move({ from: sourceSquare, to: targetSquare });
-            if (game.current.isCheckmate() || game.current.isDraw())
+            const move = game.move({ from: sourceSquare, to: targetSquare });
+            if (game.isCheckmate() || game.isDraw())
                 gameOverSound.current?.play();
             else if (move.isKingsideCastle() || move.isQueensideCastle())
                 castleSound.current?.play();
@@ -52,7 +54,7 @@ export const BasicChessboard: React.FC<{ pgn?: string }> = (props) => {
             else
                 moveSound.current?.play();
 
-            setFen(game.current.fen());
+            setFen(game.fen());
             return true;
         } catch (error) {
             console.error(error);

@@ -1,6 +1,5 @@
 'use client'
 import { useEffect, useRef } from "react";
-import { Chess } from "chess.js";
 
 export const useStockfish = () => {
   const workerRef = useRef<Worker | null>(null);
@@ -17,7 +16,6 @@ export const useStockfish = () => {
         console.log("Stockfish says:", event);
       };
 
-
       // Clean up on unmount
       return () => {
         workerRef.current?.terminate();
@@ -25,16 +23,14 @@ export const useStockfish = () => {
     }
   }, []);
 
-  const analyzePosition = (pgn: string, depth: number = 30) => {
-    const chess = new Chess();
-    chess.loadPgn(pgn);
-    const fen = chess.fen();
-
+  const analyzePosition = (fen: string, depth: number = 30) => {
     workerRef.current?.postMessage("uci");
     workerRef.current?.postMessage("isready");
     workerRef.current?.postMessage(`position fen ${fen}`);
     workerRef.current?.postMessage(`go depth ${depth}`);
   };
+
+
 
   return { analyzePosition };
 };

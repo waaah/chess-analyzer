@@ -3,8 +3,8 @@ import { Chess } from "chess.js";
 import { UploadIcon } from "lucide-react"
 import { useRef } from "react";
 
-export const PgnUploader: React.FC<{ analyzePosition: (pgn: string) => void }> = (props) => {
-    const { analyzePosition } = props;
+export const PgnUploader: React.FC<{ loadPosition: (pgn: string) => void, }> = (props) => {
+    const { loadPosition } = props;
     const pgnInputRef = useRef<HTMLTextAreaElement>(null);
     const uploadRef = useRef<HTMLInputElement>(null);
 
@@ -25,7 +25,6 @@ export const PgnUploader: React.FC<{ analyzePosition: (pgn: string) => void }> =
                 chess.loadPgn(event?.target?.result as string);
                 const content = event?.target?.result;
                 pgnInputRef.current!.value = content as string;
-                console.log('File content:', content);
             } catch (error) {
                 console.error(error);
             }
@@ -47,7 +46,7 @@ export const PgnUploader: React.FC<{ analyzePosition: (pgn: string) => void }> =
 
         <input type="file" hidden ref={uploadRef} onChange={(e) => e.target.files && onFileUpload(e.target.files[0])} />
         <Box className="w-full mt-2">
-            <Button onClick={() => analyzePosition(pgnInputRef.current?.value || '')} style={{ width: '100%' }} className="w-full!important text-center">Add Game</Button>
+            <Button onClick={() => loadPosition(pgnInputRef.current?.value || '')} style={{ width: '100%' }} className="w-full!important text-center">Add Game</Button>
         </Box>
     </>
 }

@@ -1,15 +1,16 @@
 "use client";
-import { BasicChessboard } from "@/components/ui/BasicChessboard";
+import { AnalysisChessboard } from "@/components/ui/AnalysisChessboard";
 import { EvalBar } from "@/components/ui/EvaluationBar";
 import { GameUser } from "@/components/ui/GameUser";
 import { MoveCard } from "@/components/ui/MoveCard";
+import { PgnUploader } from "@/components/ui/PgnUploader";
 import { PlayTimer } from "@/components/ui/PlayTimer";
-import { useStockfish } from "@/hooks/useStockfish";
+import { useChess } from "@/hooks/useChess";
 import { PlayerColor } from "@/types/chess";
 import { Box, Flex, Grid } from "@radix-ui/themes";
 
 const AnalyzePage = () => {
-  const { analyzePosition } = useStockfish();
+  const { loadPosition, gameInstance } = useChess();
   return (
     <Grid
       className="m-auto w-fit"
@@ -28,7 +29,7 @@ const AnalyzePage = () => {
             </Flex>
             <Flex gap="2">
               <EvalBar />
-              <BasicChessboard />
+              <AnalysisChessboard game={gameInstance} />
             </Flex>
             <Flex
               direction={"row"}
@@ -41,7 +42,9 @@ const AnalyzePage = () => {
         </Flex>
       </Box>
       <Box className="mt-10">
-        <MoveCard analyzePosition={analyzePosition} />
+        <MoveCard>
+          <PgnUploader loadPosition={loadPosition} />
+        </MoveCard>
       </Box>
     </Grid>
   );
