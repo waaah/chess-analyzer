@@ -1,9 +1,9 @@
 import { Box, Button, Card, Flex } from "@radix-ui/themes";
 import { Play, ChevronRight, ChevronsLeft, ChevronsRight, ChevronLeft, } from "lucide-react";
-import { MovesTable } from "../MovesTable";
 import { PgnUploader } from "../PgnUploader";
 
-export const MoveCard = () => {
+export const MoveCard: React.FC<{ analyzePosition: (pgn: string) => void }> = (props) => {
+    const { analyzePosition } = props;
     return <Card className="shadow-md w-full" style={{ padding: "0" }}>
         <Flex direction={"column"} align="center">
             {/* <Box className="w-full">
@@ -19,8 +19,7 @@ export const MoveCard = () => {
                 <MovesTable />
             </Box> */}
             <Box className="w-full p-5">
-                <PgnUploader />
-
+                <PgnUploader analyzePosition={analyzePosition} />
             </Box>
             <Box className="w-full p-4 bg-white">
                 <Flex gap={'3'} align={'center'} justify={'center'}>

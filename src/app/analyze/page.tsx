@@ -41,7 +41,7 @@ const AnalyzePage = () => {
         </Flex>
       </Box>
       <Box className="mt-10">
-        <MoveCard />
+        <MoveCard analyzePosition={analyzePosition} />
       </Box>
     </Grid>
   );
