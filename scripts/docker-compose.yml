@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  builder:
+    build:
+      dockerfile: Stockfish.dockerfile
+    volumes:
+      - ../public/stockfish:/app/stockfish.js/build
