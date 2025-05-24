@@ -10,7 +10,6 @@ export const GameItem: React.FC<{ gameItem: ChessGame }> = (props) => {
   const { gameItem } = props;
 
   const getGameIcon = (gameMode: GameModes) => {
-    console.log(gameMode, "GameModes");
     if (gameMode === GameModes.BLITZ) return <BlitzIcon />;
     if (gameMode === GameModes.RAPID) return <RapidIcon />;
     if (gameMode === GameModes.BULLET) return <BulletIcon />;

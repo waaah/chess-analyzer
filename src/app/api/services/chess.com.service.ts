@@ -5,7 +5,12 @@ import {
 } from "@/types/chess.com";
 import { IBaseChessService } from "./IBaseChessService";
 import { ChessGame, ChessUser } from "@/types/chess-user";
-import { ChessGameSource, GameResult, PlayerColor } from "@/types/chess";
+import {
+  ChessGameSource,
+  GameModes,
+  GameResult,
+  PlayerColor,
+} from "@/types/chess";
 import { ChessComRepository } from "../repository/chess.com.repository";
 
 export class ChessComService implements IBaseChessService {
@@ -16,7 +21,7 @@ export class ChessComService implements IBaseChessService {
   async getGameList(username: string): Promise<ChessGame[]> {
     const { games } = await this.chessComRepository.getGamesList(username);
     return games.map((game: ChessComGame) => ({
-      time_class: game.time_class,
+      time_class: game.time_class as GameModes,
       time_control: game.time_control,
       white: {
         username: game.white.username,

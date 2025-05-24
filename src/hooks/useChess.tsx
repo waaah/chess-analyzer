@@ -1,58 +1,67 @@
-'use client';
+"use client";
 import { Chess } from "chess.js";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const useChess = () => {
-    const [game, setGame] = useState<Chess>(new Chess());
-    const [history, setHistory] = useState<string[]>([]);
-    const [currentMove, setCurrentMove] = useState<number>(0);
-    /**
-     * Loads a chess game from a PGN string
-     * @param {string} pgn - The PGN string to load
-     */
-    const loadPosition = (pgn: string) => {
-        const chess = new Chess()
-        chess.loadPgn(pgn);
-        setHistory([...chess.history()]);
-        chess.reset();
-        setGame(chess)
-    }
+  const [game, setGame] = useState<Chess>(new Chess());
+  const [history, setHistory] = useState<string[]>([]);
+  const [currentMove, setCurrentMove] = useState<number>(0);
 
-    const moveAt = (currentMove: number) => {
-        const chess = new Chess();
-        const moves = history.slice(0, currentMove)
-        console.log(moves)
-        for (const move of moves) {
-            chess.move(move);
-        }
-        setGame(chess)
-        setCurrentMove(currentMove);
-    }
+  /**
+   * Loads a chess game from a PGN string
+   * @param {string} pgn - The PGN string to load
+   */
+  const loadPosition = (pgn: string) => {
+    const chess = new Chess();
+    chess.loadPgn(pgn);
+    setHistory([...chess.history()]);
+    chess.reset();
+    setGame(chess);
+  };
 
-    const moveNext = () => {
-        moveAt(currentMove + 1);
-    }
-    const moveBack = () => {
-        moveAt(currentMove - 1);
-    }
+  const moveAt = useCallback(
+    (currentMove: number) => {
+      const chess = new Chess();
+      const moves = history.slice(0, currentMove);
+      for (const move of moves) {
+        chess.move(move);
+      }
+      setGame(chess);
+      setCurrentMove(currentMove);
+    },
+    [history]
+  );
 
-    const moveToEnd = () => {
-        moveAt(history.length);
-    }
+  const moveNext = () => {
+    if (currentMove <= history.length - 1) moveAt(currentMove + 1);
+  };
+  const moveBack = () => {
+    if (currentMove > 0) moveAt(currentMove - 1);
+  };
 
-    const moveToStart = () => {
-        moveAt(0)
-    }
+  const moveToEnd = () => {
+    moveAt(history.length);
+  };
 
-    return {
-        gameInstance: game,
-        loadPosition,
-        moves: {
-            history,
-            moveNext,
-            moveBack,
-            moveToEnd,
-            moveToStart
-        }
-    }
-}
+  const moveToStart = () => {
+    moveAt(0);
+  };
+
+  useEffect(() => {
+    if (currentMove) moveAt(currentMove);
+  }, [currentMove, moveAt]);
+
+  return {
+    gameInstance: game,
+    loadPosition,
+    moves: {
+      currentMove,
+      history,
+      setCurrentMove,
+      moveNext,
+      moveBack,
+      moveToEnd,
+      moveToStart,
+    },
+  };
+};
