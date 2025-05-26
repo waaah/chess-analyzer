@@ -1,10 +1,12 @@
 "use client";
 import { Chess, Move, Square } from "chess.js";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Chessboard } from "react-chessboard";
 
+type HighlightStyles = { [square: string]: React.CSSProperties }
+
 export const AnalysisChessboard: React.FC<{ game: Chess }> = (props) => {
-    const [fen, setFen] = React.useState<string>("");
+    const [fen, setFen] = useState<string>("");
     const { game } = props;
     const moveSound = useRef<HTMLAudioElement>(null);
     const moveCheckSound = useRef<HTMLAudioElement>(null);
@@ -12,6 +14,8 @@ export const AnalysisChessboard: React.FC<{ game: Chess }> = (props) => {
     const takesSound = useRef<HTMLAudioElement>(null);
     const castleSound = useRef<HTMLAudioElement>(null);
     const illegalMoveSound = useRef<HTMLAudioElement>(null);
+    const [highlightSquares, setHighlightSquares] = useState<HighlightStyles>({});
+    const [selectedPiece, setSelectedPiece] = useState<{ piece: string, square: Square }>()
 
     useEffect(() => {
         // Initialize audio object
@@ -49,6 +53,34 @@ export const AnalysisChessboard: React.FC<{ game: Chess }> = (props) => {
         return setGameState(move);
     }
 
+    const onSquareClick = (square: Square, piece: string | undefined) => {
+        if (!piece) {
+            const move = game.move({ from: selectedPiece!.square, to: square });
+            setGameState(move);
+            setHighlightSquares({});
+            setSelectedPiece(undefined)
+        }
+        else {
+            const moves = game.moves({ square, verbose: true });
+            if (moves.length === 0) {
+                setHighlightSquares({});
+                return;
+            }
+
+            const highlights: HighlightStyles = {};
+            moves.forEach((move) => {
+                highlights[move.to] = {
+                    background: 'radial-gradient(circle, rgba(0,0,0,0.3) 12%, transparent 12%',
+                    borderRadius: '50%',
+                };
+            });
+
+            setHighlightSquares(highlights);
+            setSelectedPiece({ piece, square })
+        }
+
+    };
+
     const setGameState = (move: Move) => {
         try {
             if (game.isCheckmate() || game.isDraw())
@@ -74,8 +106,10 @@ export const AnalysisChessboard: React.FC<{ game: Chess }> = (props) => {
     }
     return <>
         <Chessboard
+            onSquareClick={onSquareClick}
             arePiecesDraggable={true}      // ✅ Enable dragging 
             position={fen}
+            customSquareStyles={highlightSquares}
             onPieceDrop={onDrop}
             boardWidth={560} />
     </>;

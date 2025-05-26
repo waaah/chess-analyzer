@@ -64,6 +64,19 @@ export const useChess = () => {
     return () => clearInterval(interval);
   }, [currentMove, history.length, isAutoplay, moveAt, moveNext])
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowRight') moveNext();
+      if (event.key === 'ArrowLeft') moveBack();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [moveBack, moveNext]);
+
   return {
     gameInstance: game,
     loadPosition,
