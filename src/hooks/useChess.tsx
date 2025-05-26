@@ -7,7 +7,6 @@ export const useChess = () => {
   const [history, setHistory] = useState<string[]>([]);
   const [currentMove, setCurrentMove] = useState<number>(0);
   const [isAutoplay, setIsAutoplay] = useState<boolean>(false);
-
   /**
    * Loads a chess game from a PGN string
    * @param {string} pgn - The PGN string to load
@@ -63,7 +62,7 @@ export const useChess = () => {
     }, 500)
 
     return () => clearInterval(interval);
-  }, [isAutoplay, moveNext])
+  }, [currentMove, history.length, isAutoplay, moveAt, moveNext])
 
   return {
     gameInstance: game,

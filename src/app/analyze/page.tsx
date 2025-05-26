@@ -5,6 +5,7 @@ import { GameUser } from "@/components/ui/GameUser";
 import { MoveButtons } from "@/components/ui/MoveButtons";
 import { MoveCard } from "@/components/ui/MoveCard";
 import { MovesList } from "@/components/ui/MovesList";
+import { MovesTable } from "@/components/ui/MovesTable";
 import { PgnUploader } from "@/components/ui/PgnUploader";
 import { PlayTimer } from "@/components/ui/PlayTimer";
 import { useChess } from "@/hooks/useChess";
@@ -61,7 +62,12 @@ const AnalyzePage = () => {
         <MoveCard>
           {history.length > 0 ? (
             <>
-              <MovesList
+              {/* <MovesList
+                history={history}
+                currentMove={currentMove}
+                setCurrentMove={setCurrentMove}
+              /> */}
+              <MovesTable
                 history={history}
                 currentMove={currentMove}
                 setCurrentMove={setCurrentMove}
