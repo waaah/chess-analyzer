@@ -23,6 +23,8 @@ const AnalyzePage = () => {
       moveToEnd,
       moveToStart,
       setCurrentMove,
+      setIsAutoplay,
+      isAutoplay
     },
   } = useChess();
   return (
@@ -65,6 +67,8 @@ const AnalyzePage = () => {
                 setCurrentMove={setCurrentMove}
               />
               <MoveButtons
+                isAutoPlay={isAutoplay}
+                setIsAutoPlay={setIsAutoplay}
                 moveBack={moveBack}
                 moveForward={moveNext}
                 moveToEnd={moveToEnd}

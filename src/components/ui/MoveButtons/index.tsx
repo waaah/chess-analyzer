@@ -1,21 +1,23 @@
 'use client'
 import { Flex, Button, Box } from "@radix-ui/themes";
-import { ChevronsLeft, ChevronLeft, Play, ChevronRight, ChevronsRight } from "lucide-react";
+import { ChevronsLeft, ChevronLeft, Play, ChevronRight, ChevronsRight, Pause } from "lucide-react";
 
 
 export const MoveButtons: React.FC<{
     moveBack: () => void,
     moveForward: () => void,
     moveToStart: () => void,
-    moveToEnd: () => void
+    moveToEnd: () => void,
+    setIsAutoPlay: (isAutoPlay: boolean) => void,
+    isAutoPlay: boolean
 }> = (props) => {
-    const { moveBack, moveForward, moveToStart, moveToEnd } = props;
+    const { moveBack, moveForward, moveToStart, moveToEnd, setIsAutoPlay, isAutoPlay } = props;
 
     return <Box className="w-full p-4 bg-white">
         <Flex gap={'3'} align={'center'} justify={'center'}>
             <Button onClick={moveToStart}><ChevronsLeft /></Button>
             <Button onClick={moveBack}><ChevronLeft /></Button>
-            <Button><Play /></Button>
+            <Button onClick={() => setIsAutoPlay(!isAutoPlay)}>{isAutoPlay ? <Pause /> : <Play />}</Button>
             <Button onClick={moveForward}><ChevronRight /></Button>
             <Button onClick={moveToEnd}><ChevronsRight /></Button>
         </Flex>

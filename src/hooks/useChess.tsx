@@ -6,6 +6,7 @@ export const useChess = () => {
   const [game, setGame] = useState<Chess>(new Chess());
   const [history, setHistory] = useState<string[]>([]);
   const [currentMove, setCurrentMove] = useState<number>(0);
+  const [isAutoplay, setIsAutoplay] = useState<boolean>(false);
 
   /**
    * Loads a chess game from a PGN string
@@ -32,9 +33,10 @@ export const useChess = () => {
     [history]
   );
 
-  const moveNext = () => {
+  const moveNext = useCallback(() => {
     if (currentMove <= history.length - 1) moveAt(currentMove + 1);
-  };
+  }, [currentMove, history, moveAt]);
+
   const moveBack = () => {
     if (currentMove > 0) moveAt(currentMove - 1);
   };
@@ -47,9 +49,21 @@ export const useChess = () => {
     moveAt(0);
   };
 
+
   useEffect(() => {
     if (currentMove) moveAt(currentMove);
   }, [currentMove, moveAt]);
+
+  useEffect(() => {
+    if (!isAutoplay) return;
+
+    const interval = setInterval(() => {
+      if (currentMove <= history.length - 1) moveAt(currentMove + 1);
+      else setIsAutoplay(false);
+    }, 500)
+
+    return () => clearInterval(interval);
+  }, [isAutoplay, moveNext])
 
   return {
     gameInstance: game,
@@ -62,6 +76,8 @@ export const useChess = () => {
       moveBack,
       moveToEnd,
       moveToStart,
+      setIsAutoplay,
+      isAutoplay
     },
   };
 };
