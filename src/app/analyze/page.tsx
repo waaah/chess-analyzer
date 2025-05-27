@@ -4,7 +4,6 @@ import { EvalBar } from "@/components/ui/EvaluationBar";
 import { GameUser } from "@/components/ui/GameUser";
 import { MoveButtons } from "@/components/ui/MoveButtons";
 import { MoveCard } from "@/components/ui/MoveCard";
-import { MovesList } from "@/components/ui/MovesList";
 import { MovesTable } from "@/components/ui/MovesTable";
 import { PgnUploader } from "@/components/ui/PgnUploader";
 import { PlayTimer } from "@/components/ui/PlayTimer";
@@ -18,14 +17,15 @@ const AnalyzePage = () => {
     gameInstance,
     moves: {
       currentMove,
-      history,
+      moveTree,
       moveBack,
       moveNext,
       moveToEnd,
       moveToStart,
-      setCurrentMove,
+      selectCurrentMove,
       setIsAutoplay,
-      isAutoplay
+      setCurrentMove,
+      isAutoplay,
     },
   } = useChess();
   return (
@@ -46,7 +46,10 @@ const AnalyzePage = () => {
             </Flex>
             <Flex gap="2">
               <EvalBar />
-              <AnalysisChessboard game={gameInstance} />
+              <AnalysisChessboard
+                setCurrentMove={setCurrentMove}
+                game={gameInstance}
+              />
             </Flex>
             <Flex
               direction={"row"}
@@ -60,17 +63,17 @@ const AnalyzePage = () => {
       </Box>
       <Box className="mt-10">
         <MoveCard>
-          {history.length > 0 ? (
+          {moveTree.length > 0 ? (
             <>
               {/* <MovesList
                 history={history}
                 currentMove={currentMove}
-                setCurrentMove={setCurrentMove}
+                selectCurrentMove={selectCurrentMove}
               /> */}
               <MovesTable
-                history={history}
+                moveTree={moveTree}
                 currentMove={currentMove}
-                setCurrentMove={setCurrentMove}
+                selectCurrentMove={selectCurrentMove}
               />
               <MoveButtons
                 isAutoPlay={isAutoplay}

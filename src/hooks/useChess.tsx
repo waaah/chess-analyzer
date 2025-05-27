@@ -2,11 +2,17 @@
 import { Chess } from "chess.js";
 import { useCallback, useEffect, useState } from "react";
 
+export type MoveTree = {
+  square: string;
+  alternates: MoveTree[];
+};
+
 export const useChess = () => {
   const [game, setGame] = useState<Chess>(new Chess());
-  const [history, setHistory] = useState<string[]>([]);
-  const [currentMove, setCurrentMove] = useState<number>(0);
+  const [moveTree, setMoveTree] = useState<MoveTree[]>([]);
+  const [currentMove, selectCurrentMove] = useState<number>(0);
   const [isAutoplay, setIsAutoplay] = useState<boolean>(false);
+
   /**
    * Loads a chess game from a PGN string
    * @param {string} pgn - The PGN string to load
@@ -14,7 +20,8 @@ export const useChess = () => {
   const loadPosition = (pgn: string) => {
     const chess = new Chess();
     chess.loadPgn(pgn);
-    setHistory([...chess.history()]);
+    const history = chess.history();
+    setMoveTree(history.map((h) => ({ square: h, alternates: [] })));
     chess.reset();
     setGame(chess);
   };
@@ -22,32 +29,44 @@ export const useChess = () => {
   const moveAt = useCallback(
     (currentMove: number) => {
       const chess = new Chess();
-      const moves = history.slice(0, currentMove);
+      const moves = moveTree.slice(0, currentMove);
       for (const move of moves) {
-        chess.move(move);
+        chess.move(move.square);
       }
       setGame(chess);
-      setCurrentMove(currentMove);
+      selectCurrentMove(currentMove);
     },
-    [history]
+    [moveTree]
   );
 
   const moveNext = useCallback(() => {
-    if (currentMove <= history.length - 1) moveAt(currentMove + 1);
-  }, [currentMove, history, moveAt]);
+    if (currentMove <= moveTree.length - 1) moveAt(currentMove + 1);
+  }, [currentMove, moveTree, moveAt]);
 
   const moveBack = () => {
     if (currentMove > 0) moveAt(currentMove - 1);
   };
 
   const moveToEnd = () => {
-    moveAt(history.length);
+    moveAt(moveTree.length);
   };
 
   const moveToStart = () => {
     moveAt(0);
   };
 
+  const setCurrentMove = (sourceSquare: string, targetSquare: string) => {
+    const index = moveTree.findIndex((t) => t.square === sourceSquare);
+
+    if (index >= 0) {
+      moveTree[index].alternates = [
+        ...(moveTree[index]?.alternates || []),
+        { square: targetSquare, alternates: [] },
+      ];
+      // refresh move tree based on updated data
+      setMoveTree([...moveTree]);
+    }
+  };
 
   useEffect(() => {
     if (currentMove) moveAt(currentMove);
@@ -57,12 +76,16 @@ export const useChess = () => {
     if (!isAutoplay) return;
 
     const interval = setInterval(() => {
-      if (currentMove <= history.length - 1) moveAt(currentMove + 1);
+      if (currentMove <= moveTree.length - 1) moveAt(currentMove + 1);
       else setIsAutoplay(false);
-    }, 500)
+    }, 500);
 
     return () => clearInterval(interval);
-  }, [currentMove, history.length, isAutoplay, moveAt, moveNext])
+  }, [currentMove, moveTree.length, isAutoplay, moveAt, moveNext]);
+
+  useEffect(() => {
+    console.log(moveTree, "movetree");
+  }, [moveTree]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -81,15 +104,16 @@ export const useChess = () => {
     gameInstance: game,
     loadPosition,
     moves: {
+      moveTree,
       currentMove,
-      history,
-      setCurrentMove,
+      selectCurrentMove,
       moveNext,
       moveBack,
       moveToEnd,
       moveToStart,
       setIsAutoplay,
-      isAutoplay
+      setCurrentMove,
+      isAutoplay,
     },
   };
 };
