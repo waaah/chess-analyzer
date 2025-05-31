@@ -15,6 +15,7 @@ const AnalyzePage = () => {
   const {
     loadPosition,
     gameInstance,
+    opening,
     moves: {
       currentMove,
       moveTree,
@@ -70,6 +71,7 @@ const AnalyzePage = () => {
                 currentMove={currentMove}
                 selectCurrentMove={selectCurrentMove}
               /> */}
+              <>Opening: {opening}</>
               <MovesTable
                 moveTree={moveTree}
                 currentMove={currentMove}
