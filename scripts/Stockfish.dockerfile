@@ -18,5 +18,7 @@ RUN ./build.js
 # Create the build folder
 RUN mkdir build
 
+RUN cp -v src/stockfish.js build/stockfish.js 
+RUN cp -v src/stockfish.wasm build/stockfish.wasm
 # Final image doesn't need to do anything, just built output
-CMD ["./move.sh"]
+CMD ["ls -la"]

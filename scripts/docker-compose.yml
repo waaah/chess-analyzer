@@ -1,8 +1,14 @@
 version: "3"
 
 services:
-  builder:
+  build-engine:
     build:
       dockerfile: Stockfish.dockerfile
     volumes:
       - ../public/stockfish:/app/stockfish.js/build
+
+  build-openings:
+    build:
+      dockerfile: Openings.dockerfile
+    volumes:
+      - ../public/openings:/app/chess-openings/openings

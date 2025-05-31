@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build-stockfish": "cd scripts && docker-compose run --rm builder"
+    "build-stockfish": "cd scripts && docker-compose run --rm build-engine",
+    "build-openings": "cd scripts && docker-compose run --rm build-openings"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
